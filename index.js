@@ -1,22 +1,24 @@
-const express =require("express");
-
-const app =express();
+const express = require("express");
+const app = express();
 
 require("dotenv").config();
+const PORT = process.env.PORT || 3000;
 
-const PORT = process.env.PORT||4000;
-app.listen(PORT ,() =>{
-    console.log("app is running on port 3000");
-})
-
+//middleware
 app.use(express.json());
 
 const blog = require("./routes/blog");
+//mount
 app.use("/api/v1", blog);
 
-const dbConnect = require("./config/database")
-dbConnect();
+const connectWithDb = require("./config/database");
+connectWithDb();
 
-app.get("/",(req,res)=>{
-        res.send(`<h1>homepage</h1>`)
-})
+//start the server
+app.listen(PORT, () => {
+  console.log(`App is started at Port no ${PORT}`);
+});
+
+app.get("/", (req, res) => {
+  res.send(`<h1>This is my homePage baby</h1>`);
+});
